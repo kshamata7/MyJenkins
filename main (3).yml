@@ -1,0 +1,39 @@
+- name: Install software packages
+  apt:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ software_packages }}"
+
+- name: Ensure groups are present
+  group:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - Linux
+    - Ansible
+
+
+- name: Ensure users are present
+  user:
+    name: "{{ item.name }}"
+    password: "{{ item.password }}"
+    state: "{{ item.state }}"
+    groups: "{{ item.groups }}"
+    shell: "{{ item.shell }}"
+    home: "{{ item.home }}"
+  loop: "{{ users }}"
+
+- name: Clone Git repositories
+  git:
+    repo: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    version: "{{ item.version }}"
+    clone: yes
+    update: yes
+  loop: "{{ git_repositories }}"
+
+- name: Ensure directories are present
+  file:
+    path: "{{ item }}"
+    state: directory
+  loop: "{{ directories }}"

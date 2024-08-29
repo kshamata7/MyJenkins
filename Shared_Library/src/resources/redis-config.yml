@@ -1,0 +1,10 @@
+# resources/redis-config.yml
+
+#repositoryUrl: 'https://github.com//redis-playbook.git'
+repositoryUrl: 'https://github.com/kshamata7/MyJenkins'
+branch: 'main'
+playbookPath: 'playbooks/deploy-redis.yml'
+inventoryPath: 'inventory/hosts.ini'
+configFile: 'resources/redis-config.yml'
+notificationChannel: '#deployments'
+

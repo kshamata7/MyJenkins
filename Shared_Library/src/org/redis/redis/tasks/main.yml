@@ -1,0 +1,30 @@
+# tasks file for redis
+---
+- name: Ensure apt cache updated on Ubuntu
+  apt:
+    update_cache: yes
+  when: ansible_os_family == "Debian"
+
+- name: Install Redis on Ubuntu
+  apt:
+    name: "{{ redis_packages.ubuntu }}"
+    state: present
+  when: ansible_facts['os_family'] == "Debian"
+
+- name: Install Redis on CentOS
+  yum:
+    name: "{{ redis_packages.centos }}"
+    state: present
+  when: ansible_facts['os_family'] == "RedHat"
+
+- name: Configure Redis
+  template:
+    src: redis.conf.j2
+    dest: "{{ redis_config_file }}"
+  notify: restart redis
+
+- name: Ensure Redis service is running
+  service:
+    name: "{{ redis_service_name }}"
+    state: started
+    enabled: yes

@@ -1,2 +1,0 @@
-# MyJenkins
-Jenkins Test Repo
